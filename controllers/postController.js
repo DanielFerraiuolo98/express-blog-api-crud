@@ -1,3 +1,4 @@
+const { response } = require("express");
 const post = require("../modules/post.js");
 
 //index
@@ -46,33 +47,33 @@ function show(req, res) {
 
 //create
 function store(req, res) {
-    res.send("creazione nuovo post con id" + req.params.id);
+    res.send("creazione nuovo post con id " + req.params.id);
 }
 
 //update
 function update(req, res) {
-    res.send("modifica integrale del post con id" + req.params.id);
+    res.send("modifica integrale del post con id " + req.params.id);
 }
 
 //modify
 function modify(req, res) {
-    res.send("modifica parziale del post con id" + req.params.id);
+    res.send("modifica parziale del post con id " + req.params.id);
 }
 
 //destroy
 function destroy(req, res) {
-    res.send("cancellazione del post con id" + req.params.id);
-    const id = parseInt(req.params.id);
-    const index = post.findIndex(item => item.id === id);//cerca tutti gli id e quando sarà uguale all'id di req.params.id eseguirà poi lo splice
+    const id = parseInt(req.params.id); // Ottieni l'ID dal parametro della richiesta
+    const index = post.findIndex(item => item.id === id); // Trova l'indice dell'elemento con l'ID corrispondente
+
     if (index !== -1) {
-        post.splice(index, 1); //splice elimina un elemento dell'array in base all'indice e 1 rappresenta che va eliminato un elemento
-        res.sendStatus(204);
-    }
-    else {
-        res.status(404);
-        res.json({
+        post.splice(index, 1); // Elimina il post dalla lista
+        console.log("Lista aggiornata:", post); // Stampa la lista aggiornata nel terminale
+        res.sendStatus(204); // Invia una risposta con stato 204 (Nessun contenuto)
+    } else {
+        // Se il post non viene trovato, invia un errore 404 con un messaggio
+        res.status(404).json({
             error: "404",
-            message: "post non trovato",
+            message: "Post non trovato",
         });
     }
 }
