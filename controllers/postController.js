@@ -29,7 +29,7 @@ function index(req, res) {
 function show(req, res) {
     const id = parseInt(req.params.id);
     const item = post.find((item) => item.id === id);//prelevo il post dall'array
-    if (item) {
+    /*if (item) {
         res.json({
             success: true,
             item,
@@ -42,17 +42,62 @@ function show(req, res) {
             message: "il post non è stato trovato",
         });
     }
-    res.json(response);
+    res.json(response);*/
+    if (!item) {
+        res.json({
+            success: false,
+            message: "il post non è stato trovato",
+        });
+    }
+    else {
+        res.json({
+            success: true, item
+        });
+    }
 }
 
-//create
+//create/store
 function store(req, res) {
-    res.send("creazione nuovo post con id " + req.params.id);
+    console.log(req.body);
+    //const newId = post[post.length - 1].id + 1;
+    let newId = 0;
+    for (let i = 0; i < post.length; i++) {
+        if (post[i].id > newId) {
+            newId = post[i].id;
+        }
+    }
+    newId += 1;
+    console.log(req.headers["content-type"]);//vediamo quale body parser utilizzare
+    const newPost = {
+        id: newId,
+        titolo: req.body.titolo,
+        contenuto: req.body.contenuto,
+        immagine: req.body.immagine,
+        tags: req.body.tags,
+    }//abbiamo creato il nuovo post mettendo nell'oggetto tutti i dati necessari
+    post.push(newPost); //pusho dentro l'array post il nuovo post creato
+    res.status(201).json(newPost);//mando in risposta lo status 201
 }
 
 //update
 function update(req, res) {
-    res.send("modifica integrale del post con id " + req.params.id);
+    const id = parseInt(req.params.id);
+    const item = post.find((item) => item.id === id);//prelevo il post dall'array
+    if (!item) {
+        res.status(404);
+        res.json({
+            success: false,
+            message: "il post non è stato trovato",
+        });
+    }
+    console.log(req.body);
+    item.titolo = req.body.titolo;
+    item.contenuto = req.body.contenuto;
+    item.immagine = req.body.immagine;
+    item.tags = req.body.tags;
+
+    console.log(post);
+    res.json(item);
 }
 
 //modify
