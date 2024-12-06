@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const controller = require("../controllers/postController");
+const checkTime = require("../middlewares/checkTime.js");
+//router.use(checkTime); // viene usato per posts
 /*const {
     index,
     show,
@@ -14,7 +16,7 @@ const controller = require("../controllers/postController");
 router.get("/", controller.index);//controller.index se uso il primo metodo mentre solo index se uso la destrutturazione
 
 //show
-router.get("/:id", controller.show); //controller.show se uso il primo metodo mentre solo show se uso la destrutturazione
+router.get("/:id", checkTime, controller.show); //controller.show se uso il primo metodo mentre solo show se uso la destrutturazione. //il secondo parametro si usa quando lo si vuole passare per una singola rotta specifica.
 
 //creare una nuova risorsa => post
 router.post("/", controller.store); //controller.store se uso il primo metodo mentre solo post se uso la destrutturazione
