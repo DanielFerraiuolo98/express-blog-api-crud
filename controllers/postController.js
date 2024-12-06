@@ -9,7 +9,7 @@ function index(req, res) {
     console.log(itemIngredient);
     let response = {
         totalCount: post.length,
-        data: [...post],
+        data: [...postSSSS],
     };
     let postCopy = [...post];
     if (postName) {

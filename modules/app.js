@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 
 app.use("/posts", postRouter);
 
-app.use(errorTerminale);
+app.use(errorTerminale);//gestisce gli errori 500
 
 app.use(errorEndpoint);// gestisce gli errori 404
 
